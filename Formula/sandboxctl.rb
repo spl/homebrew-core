@@ -1,8 +1,5 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class Sandboxctl < Formula
-  desc "Automates creation and management of chroot-based sandboxes"
+  desc "Automate creation and management of chroot-based sandboxes"
   homepage "https://github.com/jmmv/sandboxctl"
   url "https://github.com/jmmv/sandboxctl/archive/sandboxctl-1.0.tar.gz"
   sha256 "6014e76d0d7f051f40ca84af716c3c4935e8eac52880c1d0fc5909e6fa18890b"
