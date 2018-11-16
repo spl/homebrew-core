@@ -10,8 +10,6 @@ class Shtk < Formula
   def install
     system "autoreconf", "-i", "-s"
     system "./configure",
-      "--disable-debug",
-      "--disable-dependency-tracking",
       "--disable-silent-rules",
       "--prefix=#{prefix}"
     system "make", "install"
