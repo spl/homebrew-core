@@ -16,7 +16,8 @@ class Shtk < Formula
   end
 
   test do
-    ENV.prepend_path "PATH", bin
-    system prefix/"tests/shtk/shtk_test"
+    #ENV.prepend_path "PATH", bin
+    #system prefix/"tests/shtk/shtk_test"
+    system "env", "-i", prefix/"tests/shtk/shtk_test"
   end
 end
