@@ -1,8 +1,8 @@
 class Sandboxctl < Formula
   desc "Automate creation and management of chroot-based sandboxes"
   homepage "https://github.com/jmmv/sandboxctl"
-  url "https://github.com/jmmv/sandboxctl/archive/sandboxctl-1.0.tar.gz"
-  sha256 "6014e76d0d7f051f40ca84af716c3c4935e8eac52880c1d0fc5909e6fa18890b"
+  url "https://github.com/jmmv/sandboxctl/archive/sandboxctl-1.1.tar.gz"
+  sha256 "652efe8eaed011721145723631c4e5f973f822c34b22c133fbac47bb506bd038"
 
   depends_on "pkg-config" => :build
   depends_on "autoconf" => :build
@@ -10,6 +10,9 @@ class Sandboxctl < Formula
 
   depends_on "bindfs"
   depends_on "shtk"
+
+  # Install into $HOMEBREW_PREFIX/bin instead of $HOMEBREW_PREFIX/sbin.
+  patch :DATA
 
   def install
     system "autoreconf", "-i", "-s"
@@ -32,3 +35,17 @@ class Sandboxctl < Formula
     system "false"
   end
 end
+
+__END__
+diff --git a/Makefile.am b/Makefile.am
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -98,7 +98,7 @@ EXTRA_DIST += sandbox.subr.in
+ sandbox.subr: $(srcdir)/sandbox.subr.in
+        sources="$(srcdir)/sandbox.subr.in" target=sandbox.subr; $(BUILD_FILE)
+
+-sbin_SCRIPTS = sandboxctl
++bin_SCRIPTS = sandboxctl
+ CLEANFILES += sandboxctl
+ EXTRA_DIST += sandboxctl.sh
+ sandboxctl: $(srcdir)/sandboxctl.sh
