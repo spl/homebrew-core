@@ -22,17 +22,19 @@ class Sandboxctl < Formula
     system "make", "install"
   end
 
+  # Running most sandboxctl commands requires root/sudo priviledge, so we just
+  # test that the default configuration is as expected. There is currently no
+  # way to get the version; otherwise, we would test that.
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test sandboxctl`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "false"
+    expected_output_file = testpath/"expected"
+    actual_output_file = testpath/"actual"
+    expected_output_file.write <<~EOS
+      DARWIN_NATIVE_WITH_XCODE = false
+      SANDBOX_ROOT = /var/tmp/sandbox
+      SANDBOX_TYPE = darwin-native
+    EOS
+    system "sh", "-c", "#{bin}/sandboxctl config > #{actual_output_file}"
+    assert_equal expected_output_file.read, actual_output_file.read
   end
 end
 
