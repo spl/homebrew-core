@@ -11,9 +11,6 @@ class Sandboxctl < Formula
   depends_on "bindfs"
   depends_on "shtk"
 
-  # Install into $HOMEBREW_PREFIX/bin instead of $HOMEBREW_PREFIX/sbin.
-  patch :DATA
-
   def install
     system "autoreconf", "-i", "-s"
     system "./configure",
@@ -33,21 +30,7 @@ class Sandboxctl < Formula
       SANDBOX_ROOT = /var/tmp/sandbox
       SANDBOX_TYPE = darwin-native
     EOS
-    system "sh", "-c", "#{bin}/sandboxctl config > #{actual_output_file}"
+    system "sh", "-c", "#{sbin}/sandboxctl config > #{actual_output_file}"
     assert_equal expected_output_file.read, actual_output_file.read
   end
 end
-
-__END__
-diff --git a/Makefile.am b/Makefile.am
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -98,7 +98,7 @@ EXTRA_DIST += sandbox.subr.in
- sandbox.subr: $(srcdir)/sandbox.subr.in
-        sources="$(srcdir)/sandbox.subr.in" target=sandbox.subr; $(BUILD_FILE)
-
--sbin_SCRIPTS = sandboxctl
-+bin_SCRIPTS = sandboxctl
- CLEANFILES += sandboxctl
- EXTRA_DIST += sandboxctl.sh
- sandboxctl: $(srcdir)/sandboxctl.sh
